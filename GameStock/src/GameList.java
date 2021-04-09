@@ -44,5 +44,23 @@ public class GameList {
 		}
 		return currentGame;
 	}
+	
+	public String toStringNames() {
+		String list="";
+		for(Game game:games)list+=game.getName()+"\n";
+		return list;
+	}
+	
+	public String toStringFull() {
+		String list="";
+		for(Game game:games) {
+			for(String component:game.getComponents()) {
+				list+=component+", ";
+			}
+			list=list.substring(0, list.length()-2);
+			list+="\n";
+		}
+		return list;
+	}
 
 }
