@@ -12,6 +12,9 @@ public class GameList {
 			games = new ArrayList<Game>();
 			while (in.hasNextLine()) {
 				String line = in.nextLine();
+				if ("".equals(line)) {
+					continue;
+				}
 				String[] split = line.split(",");
 				String name = split[0];
 				String genre = split[1];
@@ -26,16 +29,32 @@ public class GameList {
 		}
 		in.close();
 	}
-	
+
 	public void addGame(String name, String genre, String releaseDate, String platform, String company) {
 		Game game = new Game(name, genre, releaseDate, platform, company);
 		games.add(game);
 	}
-	
+
+	public List<Game> searchByKeyword(String keyword) {
+		keyword = keyword.toLowerCase();
+		List<Game> result = new ArrayList<Game>();
+		for (Game game : games) {
+			if (game.getName().toLowerCase().contains(keyword) || game.getGenre().toLowerCase().contains(keyword)
+					|| game.getCompany().toLowerCase().contains(keyword)) {
+				result.add(game);
+			}
+		}
+		return result;
+	}
+
+	public List<Game> getGameList() {
+		return games;
+	}
+
 	public Game removeGame(String name) {
 		ListIterator<Game> iter = games.listIterator();
 		Game currentGame = null;
-		while(iter.hasNext()) {
+		while (iter.hasNext()) {
 			currentGame = iter.next();
 			if (currentGame.getName().equals(name)) {
 				games.remove(currentGame);
@@ -44,7 +63,23 @@ public class GameList {
 		}
 		return currentGame;
 	}
-	
+
+	public void save() {
+		PrintWriter pw = null;
+		try {
+			pw = new PrintWriter(new File("games.csv"));
+		} catch (Exception ex) {
+			System.out.println("Error reading file");
+		}
+		StringBuilder builder = new StringBuilder();
+		for (Game game : games) {
+			builder.append(game.getName() + "," + game.getGenre() + "," + game.getDate() + "," + game.getPlatform()
+					+ "," + game.getCompany() + "\n");
+		}
+		pw.write(builder.toString());
+		pw.close();
+	}
+
 	public String toStringNames() {
 		String list="";
 		for(Game game:games)list+=game.getName()+"\n";
@@ -57,7 +92,7 @@ public class GameList {
 			for(String component:game.getComponents()) {
 				list+=component+", ";
 			}
-			list=list.substring(0, list.length()-2);
+			list=list.substring(0, list.length()-2); //gets rid of trailing comma
 			list+="\n";
 		}
 		return list;
