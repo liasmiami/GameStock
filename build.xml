@@ -1,1 +1,41 @@
-<!--nothing yet-->
+<project name="GameStock" default="dist" basedir=".">
+
+<description>
+	Will build our mighty project from its barest elements
+</description>
+
+<!--global properties-->
+<property name="src" location="src"/>
+<property name="build" location="build"/>
+<property name="dist" location="dist"/>
+
+<target name="init">
+	<!--create time stamp-->
+	<tstamp/>
+	<!--Create build directory-->
+	<mkdir dir="${build}"/>
+</target>
+
+<target name="compile" depends="init"
+	description="compile the source code">
+	<!--Compile code from ${src} into ${build}-->
+	<javac srcdir="${src}" destdir="${build}"/>
+</target>
+
+<target name="dist" depends="compile"
+	description="create the distribution">
+	<!--Create distribution directory-->
+	<mkdir dir="${dist}/lib"/>
+	
+	<!--put stuff from ${build} into the GameStock-${DSTAMP}.jar file-->
+	<jar jarfile="${dist}/lib/GameStock-${DSTAMP.jar" basedir="${build}"/>
+</target>
+
+<target name="clean"
+	description="clean up">
+	<!--Delete ${build} and ${dist}-->
+	<delete dir="${build}"/>
+	<delete dir="${dist}"/>
+</target>
+
+</project>
