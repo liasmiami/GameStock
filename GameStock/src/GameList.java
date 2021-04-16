@@ -80,22 +80,4 @@ public class GameList {
 		pw.close();
 	}
 
-	public String toStringNames() {
-		String list="";
-		for(Game game:games)list+=game.getName()+"\n";
-		return list;
-	}
-	
-	public String toStringFull() {
-		String list="";
-		for(Game game:games) {
-			for(String component:game.getComponents()) {
-				list+=component+", ";
-			}
-			list=list.substring(0, list.length()-2); //gets rid of trailing comma
-			list+="\n";
-		}
-		return list;
-	}
-
 }
