@@ -18,8 +18,8 @@
 
 <target name="compile" depends="init"
 	description="compile the source code">
-	<!--Compile code from ${src} into ${build}-->
-	<javac srcdir="${src}" destdir="${build}"/>
+	<!--Compile code from the current directory into ${build}-->
+	<javac srcdir="." destdir="${build}"/>
 </target>
 
 <target name="dist" depends="compile"
