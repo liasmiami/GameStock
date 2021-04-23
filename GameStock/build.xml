@@ -26,16 +26,20 @@
 <target name="compile" depends="init"
 	description="compile the source code">
 	<!--Compile code from the current directory into ${build}-->
-	<javac includeantruntime="false" srcdir="." destdir="${build}"/>
+	<javac includeantruntime="true" srcdir="src" destdir="${build}">
+		<classpath>
+			<path id="org.junit" location="JUnit5.junit-jupiter-api-5.8.0-M1.jar" />
+		</classpath>
+	</javac>
 </target>
 
 <target name="dist" depends="compile"
 	description="create the distribution">
 	<!--Create distribution directory-->
-	<mkdir dir="${dist}/lib"/>
+	<mkdir dir="${dist}"/>
 	
 	<!--put stuff from ${build} into the GameStock-${DSTAMP}.jar file-->
-	<jar jarfile="${dist}/lib/GameStock-${DSTAMP.jar" basedir="${build}"/>
+	<jar jarfile="${dist}/GameStock-${DSTAMP}.jar" basedir="${build}"/>
 </target>
 
 
