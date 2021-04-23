@@ -9,7 +9,14 @@
 <property name="build" location="build"/>
 <property name="dist" location="dist"/>
 
-<target name="init">
+<target name="clean"
+	description="clean up">
+	<!--Delete ${build} and ${dist}-->
+	<delete dir="${build}"/>
+	<delete dir="${dist}"/>
+</target>
+
+<target name="init" depends="clean">
 	<!--create time stamp-->
 	<tstamp/>
 	<!--Create build directory-->
@@ -19,7 +26,7 @@
 <target name="compile" depends="init"
 	description="compile the source code">
 	<!--Compile code from the current directory into ${build}-->
-	<javac srcdir="." destdir="${build}"/>
+	<javac includeantruntime="false" srcdir="." destdir="${build}"/>
 </target>
 
 <target name="dist" depends="compile"
@@ -31,11 +38,6 @@
 	<jar jarfile="${dist}/lib/GameStock-${DSTAMP.jar" basedir="${build}"/>
 </target>
 
-<target name="clean"
-	description="clean up">
-	<!--Delete ${build} and ${dist}-->
-	<delete dir="${build}"/>
-	<delete dir="${dist}"/>
-</target>
+
 
 </project>
