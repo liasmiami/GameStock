@@ -6,7 +6,7 @@ public class GameList {
 	private ArrayList<Game> games;
 	static Scanner in = null;
 
-	public GameList(String file) {
+	public GameList(String file) { //create gamelist using csv file, games.csv in this case
 		try {
 			in = new Scanner(new File(file));
 			games = new ArrayList<Game>();
