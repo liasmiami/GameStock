@@ -1,4 +1,4 @@
-<project name="GameStock" default="dist" basedir=".">
+<project name="GameStock" default="run" basedir=".">
 
 <description>
 	Will build our mighty project from its barest elements
@@ -12,36 +12,37 @@
 <target name="clean"
 	description="clean up">
 	<!--Delete ${build} and ${dist}-->
-	<delete dir="${build}"/>
-	<delete dir="${dist}"/>
+	<delete dir="build"/>
+	<delete dir="dist"/>
 </target>
 
 <target name="init" depends="clean">
-	<!--create time stamp-->
-	<tstamp/>
 	<!--Create build directory-->
-	<mkdir dir="${build}"/>
+	<mkdir dir="build"/>
 </target>
 
 <target name="compile" depends="init"
 	description="compile the source code">
 	<!--Compile code from the current directory into ${build}-->
-	<javac includeantruntime="true" srcdir="src" destdir="${build}">
-		<classpath>
-			<path id="org.junit" location="JUnit5.junit-jupiter-api-5.8.0-M1.jar" />
-		</classpath>
+	<javac includeantruntime="false" srcdir="src" destdir="build">
 	</javac>
 </target>
 
 <target name="dist" depends="compile"
 	description="create the distribution">
 	<!--Create distribution directory-->
-	<mkdir dir="${dist}"/>
+	<mkdir dir="dist"/>
 	
 	<!--put stuff from ${build} into the GameStock-${DSTAMP}.jar file-->
-	<jar jarfile="${dist}/GameStock-${DSTAMP}.jar" basedir="${build}"/>
+	<jar destfile="dist/GameStock.jar" basedir="build">
+		<manifest>
+			<attribute name="Main-Class" value="Library" />
+		</manifest>
+	</jar>
 </target>
 
-
+<target name="run" depends="dist">
+	<java jar="dist/GameStock.jar" fork="true" />
+</target>
 
 </project>
