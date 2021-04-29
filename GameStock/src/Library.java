@@ -37,8 +37,8 @@ import java.awt.event.WindowStateListener;
 import java.awt.event.ActionEvent;
 
 public class Library extends JFrame {
-	static GameList gameList = new GameList("games.csv"); 
-	static CommentList commentList = new CommentList("comments.csv"); 
+	static GameList gameList = new GameList("../src/games.csv"); //read from src directory
+	static CommentList commentList = new CommentList("../src/comments.csv"); 
 
 	private JPanel contentPane;
 	private JTextField textField;
