@@ -40,7 +40,8 @@ public class GameList {
 		List<Game> result = new ArrayList<Game>();
 		for (Game game : games) {
 			if (game.getName().toLowerCase().contains(keyword) || game.getGenre().toLowerCase().contains(keyword)
-					|| game.getCompany().toLowerCase().contains(keyword)) {
+					|| game.getCompany().toLowerCase().contains(keyword) || 
+							game.getPlatform().toLowerCase().contains(keyword)) {
 				result.add(game);
 			}
 		}
