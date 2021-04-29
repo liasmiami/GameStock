@@ -37,7 +37,7 @@ import java.awt.event.WindowStateListener;
 import java.awt.event.ActionEvent;
 
 public class Library extends JFrame {
-	static GameList gameList = new GameList("games.csv"); //read from src directory
+	static GameList gameList = new GameList("games.csv"); 
 	static CommentList commentList = new CommentList("comments.csv"); 
 
 	private JPanel contentPane;

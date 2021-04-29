@@ -1,48 +1,84 @@
-<project name="GameStock" default="run" basedir=".">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<description>
-	Will build our mighty project from its barest elements
-</description>
-
-<!--global properties-->
-<property name="src" location="src"/>
-<property name="build" location="build"/>
-<property name="dist" location="dist"/>
-
-<target name="clean"
-	description="clean up">
-	<!--Delete ${build} and ${dist}-->
-	<delete dir="build"/>
-	<delete dir="dist"/>
-</target>
-
-<target name="init" depends="clean">
-	<!--Create build directory-->
-	<mkdir dir="build"/>
-</target>
-
-<target name="compile" depends="init"
-	description="compile the source code">
-	<!--Compile code from the current directory into ${build}-->
-	<javac includeantruntime="false" srcdir="src" destdir="build">
-	</javac>
-</target>
-
-<target name="dist" depends="compile"
-	description="create the distribution">
-	<!--Create distribution directory-->
-	<mkdir dir="dist"/>
-	
-	<!--put stuff from ${build} into the GameStock-${DSTAMP}.jar file-->
-	<jar destfile="dist/GameStock.jar" basedir="build">
-		<manifest>
-			<attribute name="Main-Class" value="LoginFrame" />
-		</manifest>
-	</jar>
-</target>
-
-<target name="run" depends="dist">
-	<java jar="dist/GameStock.jar" fork="true" />
-</target>
-
+<project basedir="." default="LoginFrame" name="CSE201_Project">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="JUnit 5.libraryclasspath">
+        <pathelement location="../../.p2/pool/plugins/org.junit.jupiter.api_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.jupiter.engine_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.jupiter.params_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.platform.commons_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.platform.engine_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.platform.launcher_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.platform.runner_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.platform.suite.api_1.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit.vintage.engine_5.6.0.v20200203-2009.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.opentest4j_1.2.0.v20190826-0900.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.apiguardian_1.1.0.v20190826-0900.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.junit_4.13.0.v20200204-1500.jar"/>
+        <pathelement location="../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>
+    <path id="CSE201_Project.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="CSE201_Project.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="GameTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="GameTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="CSE201_Project.classpath"/>
+        </junit>
+    </target>
+    <target name="GUI">
+        <java classname="GUI" failonerror="true" fork="yes">
+            <classpath refid="CSE201_Project.classpath"/>
+        </java>
+    </target>
+    <target name="Library">
+        <java classname="Library" failonerror="true" fork="yes">
+            <classpath refid="CSE201_Project.classpath"/>
+        </java>
+    </target>
+    <target name="LoginFrame">
+        <java classname="LoginFrame" failonerror="true" fork="yes">
+            <classpath refid="CSE201_Project.classpath"/>
+        </java>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
 </project>
