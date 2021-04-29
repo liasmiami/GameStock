@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
 <project basedir="." default="LoginFrame" name="CSE201_Project">
     <property environment="env"/>
     <property name="junit.output.dir" value="junit"/>

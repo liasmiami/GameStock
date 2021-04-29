@@ -49,7 +49,7 @@ public class LoginFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Welcome to Game Library");
+		JLabel lblNewLabel = new JLabel("Welcome to GameStock");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
 		lblNewLabel.setBounds(107, 24, 221, 33);

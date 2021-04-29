@@ -33,7 +33,7 @@ public class UserList {
 	
 	public boolean login(String name, String password) { 
 		for (User user : users) {
-			if (user.getName().equals(name)&& user.getName().equals(password)) {
+			if (user.getName().equals(name)&& user.getPassword().equals(password)) {
 				return true;
 			}
 		} 
@@ -68,7 +68,7 @@ public class UserList {
 		}
 		StringBuilder builder = new StringBuilder();
 		for (User user : users) {
-			builder.append(user.toString() + "\n");
+			builder.append(user.getName() + "," + user.getPassword()+"\n");
 		}
 		pw.write(builder.toString());
 		pw.close();

@@ -19,7 +19,7 @@ public class RegisterFrame extends JDialog {
 	private JTextField textField_username;
 	private JTextField textField_password;
 	
-	static UserList userList = new UserList("user.csv"); 
+	static UserList userList = new UserList("users.csv"); 
 	private JTextField textField_comfirm;
   
 	/**
