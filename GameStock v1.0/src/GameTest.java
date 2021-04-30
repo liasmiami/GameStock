@@ -82,6 +82,17 @@ class GameTest {
         assertEquals(game.getRating(), "3/5");
     }
     
+    @Test
+    void testStringBuilder() {
+    	StringBuilder builder = new StringBuilder();
+    	Game game = new Game("Grand Theft Auto V", "Action-adventure", "9/17/2013", "PlayStation", "RockStar Games");
+		builder.append(game.getName() + "," + game.getGenre() + "," + game.getDate() + "," + game.getPlatform()
+				+ "," + game.getCompany() + "\n");
+		System.out.println(builder.toString());
+		assertEquals(builder.toString(), "Grand Theft Auto V,Action-adventure,9/17/2013,PlayStation,RockStar Games\n");
+		
+    }
+    
     
 
 }
