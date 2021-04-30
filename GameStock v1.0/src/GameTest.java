@@ -93,6 +93,10 @@ class GameTest {
 		
     }
     
-    
-
+    @Test
+    void testLikes() {
+    	Comment comment=new Comment("Super Mario Bros.", "88509247", "71239572", "nice",1);
+    	comment.setLike(comment.getLike()+1);
+    	assertEquals(2, comment.getLike());
+    }
 }
