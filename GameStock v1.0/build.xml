@@ -72,6 +72,15 @@
             <classpath refid="CSE201_Project.classpath"/>
         </java>
     </target>
+    <target name="GameTest.testStringBuilder">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="GameTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="CSE201_Project.classpath"/>
+        </junit>
+    </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">
             <fileset dir="${junit.output.dir}">
