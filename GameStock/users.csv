@@ -1,4 +1,11 @@
-guest,password
-admin,admin
-lias,miami
-guest1,verysecure
+guest,password,no
+admin,admin,yes
+lias,miami,no
+hehehe,hohoho,no
+changetest,test,no
+jimmy,john,no
+alex,pleva,no
+test2,test2,no
+test3,test3,no
+John,Doe,no
+guest0,guest0,no

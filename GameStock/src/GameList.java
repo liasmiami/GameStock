@@ -4,9 +4,11 @@ import java.io.*;
 public class GameList {
 
 	private ArrayList<Game> games;
+	private String file;
 	static Scanner in = null;
 
 	public GameList(String file) { //create gamelist using csv file, games.csv in this case
+		this.file=file;
 		try {
 			in = new Scanner(new File(file));
 			games = new ArrayList<Game>();
@@ -68,7 +70,7 @@ public class GameList {
 	public void save() {
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new File("games.csv"));
+			pw = new PrintWriter(new File(file));
 		} catch (Exception ex) {
 			System.out.println("Error reading file");
 		}

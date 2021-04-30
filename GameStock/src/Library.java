@@ -38,6 +38,7 @@ import java.awt.event.ActionEvent;
 
 public class Library extends JFrame {
 	static GameList gameList = new GameList("games.csv"); 
+	static GameList requestList = new GameList("requests.csv");
 	static CommentList commentList = new CommentList("comments.csv"); 
 
 	private JPanel contentPane;
@@ -52,7 +53,7 @@ public class Library extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Library frame = new Library();
+					Library frame = new Library("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +65,7 @@ public class Library extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Library() {
+	public Library(String username) {
 		setTitle("Game Library");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 898, 601);
@@ -142,7 +143,7 @@ public class Library extends JFrame {
 					}
 				});
 
-				dialog.setVisible(true);
+				dialog.setVisible(true);  
 			}
 		});
 		btnNewButton_1.setFont(new Font("Consolas", Font.PLAIN, 12));
@@ -189,7 +190,7 @@ public class Library extends JFrame {
 					}
 
 					AddComment addComment = new AddComment(commentID.equals("-1") ? "Game: " : "Comment: ",
-							gameName, commentID.equals("-1") ? gameName : node.getUserObject().toString(),commentID);
+							gameName, commentID.equals("-1") ? gameName : node.getUserObject().toString(),commentID, username);
 					addComment.setModal(true);
 					addComment.setVisible(true);
 					addComment.addWindowListener(new WindowListener() {
@@ -252,12 +253,48 @@ public class Library extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+				requestList.removeGame(name);
+				requestList.save();
 				gameList.removeGame(name);
 				gameList.save();
 				loadGameList(table, gameList.getGameList());
 			}
 		});
+		
+		JButton btnRequests = new JButton("Requests");
+		btnRequests.setFont(new Font("Consolas", Font.PLAIN, 12));
+		btnRequests.setBounds(676, 35, 93, 23);
+		contentPane.add(btnRequests);
 
+		btnRequests.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGameList(table, requestList.getGameList());
+			}
+		}); 
+		
+		JButton btnAccept = new JButton("Accept");
+		btnAccept.setFont(new Font("Consolas", Font.PLAIN, 12));
+		btnAccept.setBounds(779,35,93,23);;
+		contentPane.add(btnAccept);
+		btnAccept.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+				String genre = table.getValueAt(table.getSelectedRow(), 1).toString();
+				String releasedate = table.getValueAt(table.getSelectedRow(), 2).toString();
+				String platform = table.getValueAt(table.getSelectedRow(), 3).toString();
+				String company = table.getValueAt(table.getSelectedRow(), 4).toString();
+				gameList.addGame(name, genre, releasedate, platform, company);
+				requestList.removeGame(name);
+				gameList.save();
+				requestList.save();
+				loadGameList(table, requestList.getGameList());
+			}
+		}); 
+	
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 326, 862, 194);
 		contentPane.add(scrollPane_1);
@@ -335,7 +372,7 @@ public class Library extends JFrame {
 		for (Comment comment : comments) {
 			if (comment.getParentCommentId().equals(commentNode.getID())) {
 			    // garbled code here, changed to likes
-				CommentNode commentChildNode = new CommentNode(comment.getCommentId(), comment.getContent() + "Likes: " + comment.getLike());
+				CommentNode commentChildNode = new CommentNode(comment.getCommentId(), comment.getUser()+": "+comment.getContent() + " | Likes: " + comment.getLike());
 				commentNode.add(getChildCommentNodes(commentChildNode, comments)); 
 			}
 		}
@@ -372,8 +409,8 @@ public class Library extends JFrame {
 
 		Icon CollapsedIcon = new ImageIcon("image/tree_elbow_add.png");
 		Icon LeafIcon = new ImageIcon("image/user.png");
-		Icon ClosedIcon = new ImageIcon("image/user.png");
-		Icon OpenedIcon = new ImageIcon("image/user.png");
+		Icon ClosedIcon = new ImageIcon("image/plus.png");
+		Icon OpenedIcon = new ImageIcon("image/minus.png");
 
 		DefaultTreeCellRenderer render = (DefaultTreeCellRenderer) (tree.getCellRenderer());
 		render.setLeafIcon(LeafIcon);

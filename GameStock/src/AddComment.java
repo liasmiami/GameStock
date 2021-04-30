@@ -23,7 +23,7 @@ public class AddComment extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AddComment(String label2,String gameName,String labConent,String parentCommentID) {
+	public AddComment(String label2,String gameName,String labConent,String parentCommentID, String theuser) {
 		
 		this.parentCommentID=parentCommentID;
 		
@@ -69,7 +69,7 @@ public class AddComment extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Library.commentList.addComment(gameName, UUID.randomUUID().toString(), parentCommentID, textField_comment.getText().trim());
+						Library.commentList.addComment(gameName, UUID.randomUUID().toString(), parentCommentID, textField_comment.getText().trim(), theuser);
 						Library.commentList.save();
 						dispose();
 					}

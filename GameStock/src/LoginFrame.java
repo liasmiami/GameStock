@@ -80,9 +80,16 @@ public class LoginFrame extends JFrame {
 				String password=textField_password.getText().trim();
 				if(userList.login(username, password))
 				{
-					Library library=new Library();
-					library.setVisible(true);
-				    setVisible(false);
+					if(userList.isAdmin(username, password)) {
+						Library library=new Library(username);
+						library.setVisible(true);
+						setVisible(false);
+					}
+					else{
+						GuestLibrary library=new GuestLibrary(username);
+						library.setVisible(true);
+						setVisible(false);
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Login failed.", "Error", JOptionPane.ERROR_MESSAGE);
 				}

@@ -22,7 +22,8 @@ public class UserList {
 				String[] split = line.split(",");
 				String name = split[0];
 				String password = split[1]; 
-				User user = new User(name, password);
+				String adminaccess=split[2];
+				User user = new User(name, password, adminaccess.equals("yes"));
 				users.add(user);
 			}
 		} catch (Exception e) {
@@ -58,6 +59,15 @@ public class UserList {
 		}
 		return false;
 	} 
+	
+	public boolean isAdmin(String name, String password) {
+		for(User user: users) {
+			if(user.getName().equals(name) && user.getPassword().equals(password)) {
+				return user.isAdmin();
+			}
+		}
+		return false;
+	}
 
 	public void save() {
 		PrintWriter pw = null;
@@ -67,8 +77,11 @@ public class UserList {
 			System.out.println("Error reading file");
 		}
 		StringBuilder builder = new StringBuilder();
+		String access="no";
 		for (User user : users) {
-			builder.append(user.getName() + "," + user.getPassword()+"\n");
+			if(user.isAdmin())access="yes";
+			builder.append(user.getName() + "," + user.getPassword()+","+access+"\n");
+			access="no";
 		}
 		pw.write(builder.toString());
 		pw.close();

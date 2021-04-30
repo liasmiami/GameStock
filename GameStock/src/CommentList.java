@@ -23,7 +23,8 @@ public class CommentList {
 				String parentCommentId = split[2];
 				String content = split[3];
 				int like =Integer.valueOf( split[4]);
-				Comment comment = new Comment(name, commentId, parentCommentId, content, like);
+				String user=split[5];
+				Comment comment = new Comment(name, commentId, parentCommentId, content, like, user);
 				comments.add(comment);
 			}
 		} catch (Exception e) {
@@ -32,8 +33,8 @@ public class CommentList {
 		in.close();
 	}
 
-	public void addComment(String name, String commentId, String parentCommentId, String content ) {
-		Comment comment = new Comment(name, commentId, parentCommentId, content, 0);
+	public void addComment(String name, String commentId, String parentCommentId, String content, String user) {
+		Comment comment = new Comment(name, commentId, parentCommentId, content, 0, user);
 		comments.add(comment);
 	}
 	
@@ -67,7 +68,8 @@ public class CommentList {
 		}
 		StringBuilder builder = new StringBuilder();
 		for (Comment comment : comments) {
-			builder.append(comment.getGameName() + "," + comment.getCommentId() + "," + comment.getParentCommentId() + "," +comment.getContent()+ "," + comment.getLike()+ "\n");
+			builder.append(comment.getGameName() + "," + comment.getCommentId() + "," + comment.getParentCommentId() + "," +comment.getContent()
+			+ "," + comment.getLike()+ ","+comment.getUser()+"\n");
 		}
 		pw.write(builder.toString());
 		pw.close();
